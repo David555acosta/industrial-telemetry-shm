@@ -15,8 +15,8 @@ add_compile_options(-Wall -Wextra -pthread)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 
- add_executable(sensor src/sensor.c)
+ add_executable(sensor src/sensor.c "src/sensor.c")
  target_link_libraries(sensor PRIVATE pthread rt)
 
-# add_executable(monitor src/monitor.c)
-# target_link_libraries(monitor PRIVATE pthread rt)
+ add_executable(monitor src/monitor.c "src/monitor.c")
+ target_link_libraries(monitor PRIVATE pthread rt)
