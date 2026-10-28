@@ -10,6 +10,8 @@
 #include <time.h>
 
 #include "common.h"
+//inclucion biblioteca que creamos donde alojamos la firma del struct , los umbrales maximos de cada campo del
+// TelemetriaCompresor y los nombres unicos que le pasamos al semaforo y memoria compartida
 volatile sig_atomic_t keep_running = 1;
 
 void handle_sigint(int sig) {
