@@ -1,0 +1,30 @@
+# --- Visual Studio ---
+.vs/
+*.suo
+*.user
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# --- CMake Build Directories ---
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake-install.cmake
+cmake_install.cmake
+Makefile
+*.cmake
+Testing/
+bin/
+lib/
+
+# --- Binarios y Compilados ---
+sensor
+monitor
+*.o
+*.out
+*.exe
+
+# --- Sistema Operativo ---
+.DS_Store
+Thumbs.db
