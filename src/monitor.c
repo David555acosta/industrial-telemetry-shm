@@ -38,37 +38,41 @@ int main(void) {
     }
 
     printf("[MONITOR] Conexión establecida. Leyendo datos en tiempo real...\n\n");
-    printf("--------------------------------------------------------------------------------\n");
-    printf(" SECUENCIA | TIMESTAMP          | TEMP (°C) | PRES (Bar) | VIB (µm) | RPM   | ESTADO\n");
-    printf("--------------------------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------------------------------------\n");
+    printf(" SECUENCIA | FECHA Y HORA       | TEMP (°C) | PRES (Bar) | VIB (µm) | RPM   | ESTADO\n");
+    printf("------------------------------------------------------------------------------------------------\n");
 
     uint64_t ultima_secuencia = 0;
 
-
-    while (1 == 1) {
+    while (1) {
         sem_wait(sem);
 
         uint64_t seq = telemetria->numero_secuencia;
-        time_t ts = telemetria->timestamp;
+        int anio = telemetria->anio;
+        int mes = telemetria->mes;
+        int dia = telemetria->dia;
+        int hora = telemetria->hora;
+        int minuto = telemetria->minuto;
+        int segundo = telemetria->segundo;
+
         float temp = telemetria->temperatura_cojinetes;
         float pres = telemetria->presion_descarga;
         float vib = telemetria->vibracion_axial;
         float rpm = telemetria->velocidad_rpm;
         int alerta = telemetria->estado_alerta;
 
-
         sem_post(sem);
 
         if (seq != ultima_secuencia) {
             ultima_secuencia = seq;
 
-            struct tm* tiempolocal = localtime(&ts);
-            char hora_str[9];
-            strftime(hora_str, sizeof(hora_str), "%H:%M:%S", tiempolocal);
+            char fecha_hora_str[20];
+            snprintf(fecha_hora_str, sizeof(fecha_hora_str), "%04d-%02d-%02d %02d:%02d:%02d",
+                anio, mes, dia, hora, minuto, segundo);
 
-            printf(" %9lu | %s     | %9.1f | %10.1f | %8.1f | %5.0f | %s\n",
+            printf(" %9lu | %s | %9.1f | %10.1f | %8.1f | %5.0f | %s\n",
                 seq,
-                hora_str,
+                fecha_hora_str,
                 temp,
                 pres,
                 vib,

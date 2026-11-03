@@ -20,6 +20,14 @@ typedef struct {
     uint64_t numero_secuencia;    // Contador incremental para verificar continuidad
     time_t timestamp;             // Marca de tiempo UNIX
 
+    // Fecha y hora detallada para visualización directa
+    int anio;       // Ej: 2026
+    int mes;        // 1 - 12
+    int dia;        // 1 - 31
+    int hora;       // 0 - 23
+    int minuto;     // 0 - 59
+    int segundo;    // 0 - 59
+
     // Métricas físicas del Compresor Centrífugo
     float temperatura_cojinetes;  // en °C (Normal: 50.0 - 80.0)
     float presion_descarga;       // en Bar (Normal: 15.0 - 22.0)
