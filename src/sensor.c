@@ -124,7 +124,7 @@ int main(void) {
             telemetria->velocidad_rpm,
             telemetria->estado_alerta == 0 ? "NORMAL" : "ALERTA");
 
-        sleep(1);
+        sleep(10);
     }
 
 
