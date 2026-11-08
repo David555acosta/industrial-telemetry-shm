@@ -3,39 +3,44 @@
 
 #include <stdint.h>
 #include <time.h>
+#include <semaphore.h> // Incluido para reconocer sem_t
 
-// Nombres únicos para los recursos POSIX en el Kernel
 #define SHM_NAME "/shm_telemetria_compresor"
-#define SEM_NAME "/sem_telemetria_compresor"
 
-// Límites de Alerta (Umbrales Críticos)
 #define TEMP_CRITICA 90.0f
 #define PRESION_CRITICA 25.0f
 #define VIBRACION_CRITICA 60.0f
 #define RPM_MINIMA 6000.0f
 #define RPM_MAXIMA 13000.0f
 
-// Estructura que representa el estado instantáneo de la maquinaria
+// Sintaxis corregida agregando {
 typedef struct {
-    uint64_t numero_secuencia;    // Contador incremental para verificar continuidad
-    time_t timestamp;             // Marca de tiempo UNIX
+    sem_t mutex;
 
-    // Fecha y hora detallada para visualización directa
-    int anio;       // Ej: 2026
-    int mes;        // 1 - 12
-    int dia;        // 1 - 31
-    int hora;       // 0 - 23
-    int minuto;     // 0 - 59
-    int segundo;    // 0 - 59
+    uint64_t numero_secuencia;
+    time_t timestamp;
 
-    // Métricas físicas del Compresor Centrífugo
-    float temperatura_cojinetes;  // en °C (Normal: 50.0 - 80.0)
-    float presion_descarga;       // en Bar (Normal: 15.0 - 22.0)
-    float vibracion_axial;        // en micrómetros µm (Normal: 10.0 - 35.0)
-    float velocidad_rpm;          // en RPM (Normal: 8,000 - 12,000)
+    int anio;
+    int mes;
+    int dia;
+    int hora;
+    int minuto;
+    int segundo;
 
-    // Estado operativo (0 = Normal, 1 = Alerta Crítica por umbral superado)
+    float temperatura_cojinetes;
+    float presion_descarga;
+    float vibracion_axial;
+    float velocidad_rpm;
+
     int estado_alerta;
 } TelemetriaCompresor;
+
+#ifdef SIN_SYNC
+#define LOCK(t)
+#define UNLOCK(t)
+#else
+#define LOCK(t) sem_wait(&(t)->mutex)
+#define UNLOCK(t) sem_post(&(t)->mutex)
+#endif
 
 #endif // COMMON_H
